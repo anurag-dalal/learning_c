@@ -169,3 +169,7 @@ Dereferencing of p = 10
 Dereferencing of pp one time = -1082695972, two time = 10
 Dereferencing of ppp one time = -1082695968, two time = -1082695972, three time = 10
 ```
+### 6. Pointers as function arguments - Call by reference
+
+
+<img src="op_images/memory.png" alt="Memory" width="300px">
