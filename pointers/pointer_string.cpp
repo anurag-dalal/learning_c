@@ -1,5 +1,12 @@
 #include<stdio.h>
 #include<string.h>
+void print(char *s, int len){
+    // Print the string
+    for (int i = 0; i < len; i++){
+        printf("%c", &s);
+        s++;
+    }
+}
 int main(){
 
     // not null terminated

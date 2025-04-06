@@ -291,7 +291,24 @@ String -> Group of characters. Ex "john", "Hello World!!", "I'm feeling luckky".
 
 Strings are stored in `char` array.
 Size of the char array >= # of characters in string + 1.
-In older versions of C (C89/C90, the concept of a "string" was tightly coupled with null-terminated character arrays.
+In older versions of C (C89/C90), the concept of a "string" was tightly coupled with null-terminated character arrays.
 Ex. for "John" size of array >= 5
-Actually "John" is stored as {'J', 'o', 'h','n','\0'}. '\0' is a null character signifies end of the string. String in c are null terminated.
+Actually "John" is stored as {'J', 'o', 'h','n','\0'}. '\0' is a null character signifies end of the string. String in c are null terminated. Run the code and see the comments.\
+[Code 1](pointer_string.cpp)
+[Code 2](pointer_string2.cpp)
 
+
+### 9. Pointers and muti-dimensional array
+
+Memory representation:
+<img src="op_images/pointe_mdarray.png" alt="Memory allocation" width="700px">
+
+So in this image `int *p = B;` will give an compilation error because B is a pointer to 1D array of 3 integer not a  pointer to integer.
+The correct way is `int (*p)[3] = B;`
+
+`printf("%d", B)` will print 400
+`printf("%d", *B)` or `printf("%d", B[0])` or `printf("%d", &B[0][0])` will all print 400
+
+See [Code ](pointer_mdarray.cpp) for more information.
+
+### 10. Pointers and dynamic memory
