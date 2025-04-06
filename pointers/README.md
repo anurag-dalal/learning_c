@@ -25,6 +25,8 @@ In C, you can obtain the memory address where a variable is stored using the amp
 * `&i === 1;` // False: `&i` is a memory address, not the value 1.
 * `&i === 0xF00000;` // True (assuming `i` is stored at `0xF00000`).
 
+Note: In 32 bit OS, pointers are 4 bytes, but in 64 bit its 8 bytes.
+
 **Pointers**
 
 A pointer is a variable that stores a memory address. It "points" to a specific location in memory. Pointers themselves don't hold values in the same way primitives do; they hold memory addresses.
@@ -172,4 +174,124 @@ Dereferencing of ppp one time = -1082695968, two time = -1082695972, three time 
 ### 6. Pointers as function arguments - Call by reference
 
 
-<img src="op_images/memory.png" alt="Memory" width="300px">
+<img src="op_images/memory.png" alt="Memory" width="300px">\
+
+#### Example of function call stack:
+See this [code](pointer?function.cpp) and the expected output:
+
+```
+a initial value in main = 5
+a initial value in Increment = 5
+a value in Increment after +1 = 6
+a final value in main after increment= 5
+a initial value in Increment with pointer = 5
+a value in Increment after +1 with pointer= 6
+a final value in main after increment with pointer= 6
+```
+Call stack:
+
+Call Stack Diagram:
+```
+-------------------------------------------------------------
+
+1. main() is called:
+
+   Stack: [main()]
+
+   Memory:
+     a (in main) : 5  (Address: 0x1000, for example)
+
+   Output:
+     a initial value in main = 5
+
+-------------------------------------------------------------
+
+2. Increment(a) is called (pass by value):
+
+   Stack: [main(), Increment(a)]
+
+   Memory:
+     a (in main) : 5 (Address: 0x1000)
+     a (in Increment): 5 (Address: 0x2000, a copy)
+
+   Output:
+     a initial value in Increment = 5
+     a value in Increment after +1 = 6
+
+   Stack: [main()] // Increment(a) returns and is popped
+
+   Memory:
+     a (in main) : 5 (Address: 0x1000)
+
+   Output:
+     a final value in main after increment= 5
+
+-------------------------------------------------------------
+
+3. Increment(&a) is called (pass by pointer):
+
+   Stack: [main(), Increment(&a)]
+
+   Memory:
+     a (in main) : 5 (Address: 0x1000)
+     a (in Increment): 0x1000 (Address of a in main)
+
+   Output:
+     a initial value in Increment with pointer = 5
+     a value in Increment after +1 with pointer= 6
+
+   Stack: [main()] // Increment(&a) returns and is popped
+
+   Memory:
+     a (in main) : 6 (Address: 0x1000)
+
+   Output:
+     a final value in main after increment with pointer= 6
+
+-------------------------------------------------------------
+
+4. main() returns:
+
+   Stack: []
+
+   Program terminates.
+```
+
+### 7a. Pointer and array
+When arrays are declared they are consecutive in memory, and by incrementing the pointer we can have a reference to next element.
+
+<img src="op_images/pointer_array.png" alt="Memory allocation" width="700px">
+
+```c
+int A[5] = {2,4,5,8,1};
+int i = 1;
+// can get the address of ith element in array by: &A[i] or (A+i)
+// can get value at i by: A[i] or *(A+i)
+```
+### 7b. Sum of all elements of int array
+
+Using pass by reference find sum of all elements in an `int` array. Think how you will know the size of the array...
+
+[Code](pointer_array_sum.cpp)\
+Output:
+```
+In main(), size of A = 20, A[0] = 4
+In SumOfElements(int A[]), size of A = 8, A[0] = 4
+In SumOfElements(int A[]), size of A = 8, A[0] = 4
+Sum of elements when size is not passed = 3
+In SumOfElements(int A[], int size), size of A = 8, A[0] = 4
+Sum of elements = 15
+```
+
+### 8. Characters arrays and pointers
+
+Character -> 'a', '#', '3', '\t', '\n', '\0'
+
+String -> Group of characters. Ex "john", "Hello World!!", "I'm feeling luckky".
+
+Strings are stored in `char` array.
+Size of the char array >= # of characters in string + 1.
+In older versions of C (C89/C90, the concept of a "string" was tightly coupled with null-terminated character arrays.
+Ex. for "John" size of array >= 5
+Actually "John" is stored as {'J', 'o', 'h','n','\0'}. '\0' is a null character signifies end of the string. String in c are null terminated.
+
